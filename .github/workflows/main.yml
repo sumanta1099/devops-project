@@ -47,5 +47,4 @@ jobs:
           # Pull and run Docker containers
           docker pull ${{ secrets.DOCKER_USERNAME }}/frontend-image
           docker pull ${{ secrets.DOCKER_USERNAME }}/backend-image
-          cd devops-project/docker
-          docker-compose up -d
+          docker-compose -f docker-compose.yml up -d
