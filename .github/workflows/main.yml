@@ -21,10 +21,10 @@ jobs:
 
     - name: Build and push Docker images
       run: |
-        docker build -t myuser/frontend-image ./frontend
-        docker build -t myuser/backend-image ./backend
-        docker push myuser/frontend-image
-        docker push myuser/backend-image
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend-image ./frontend
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/backend-image ./backend
+        docker push ${{ secrets.DOCKER_USERNAME }}/frontend-image
+        docker push ${{ secrets.DOCKER_USERNAME }}/backend-image
 
     - name: SSH and deploy
       uses: appleboy/ssh-action@master
@@ -33,6 +33,6 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-          docker pull myuser/frontend-image
-          docker pull myuser/backend-image
+          docker pull ${{ secrets.DOCKER_USERNAME }}/frontend-image
+          docker pull ${{ secrets.DOCKER_USERNAME }}/backend-image
           docker-compose -f /docker-compose.yml up -d
