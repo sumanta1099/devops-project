@@ -47,6 +47,6 @@ jobs:
             sudo chmod +x /usr/local/bin/docker-compose
             
             # Pull and run Docker containers
-            docker pull ${{ secrets.DOCKER_USERNAME }}/frontend-image
-            docker pull ${{ secrets.DOCKER_USERNAME }}/backend-image
+            # docker pull ${{ secrets.DOCKER_USERNAME }}/frontend-image
+            # docker pull ${{ secrets.DOCKER_USERNAME }}/backend-image
             docker-compose -f docker-compose.yml up -d
