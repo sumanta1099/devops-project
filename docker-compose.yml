@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  frontend: 
+    container_name: frontend
+    build: 
+      context: frontend/
+    image: frontend-image
+    ports: 
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - three-tier-net 
+
+  backend:
+    container_name: backend
+    build: 
+      context: backend/
+    image: backend-image
+    ports: 
+      - "3500:3500"
+    environment:
+      - MYSQL_HOST=mysql-container
+      - MYSQL_USER_FILE=/run/secrets/mysql_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+      - MYSQL_DATABASE=school
+    depends_on:
+      - db
+    networks:
+      - three-tier-net
+    secrets:
+      - mysql_user
+      - mysql_password
+
+  db:
+    container_name: mysql-container
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
+      - MYSQL_DATABASE=school
+    volumes:
+      - mysql-data:/var/lib/mysql
+    secrets:
+      - mysql_root_password
+
+volumes:
+  mysql-data:
+
+networks:
+  three-tier-net:
+    name: three-tier-net
+    driver: bridge
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  mysql_user:
+    file: ./secrets/mysql_user.txt
+  mysql_password:
+    file: ./secrets/mysql_password.txt
