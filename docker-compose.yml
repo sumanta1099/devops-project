@@ -3,7 +3,7 @@ services:
   frontend: 
     container_name: frontend
     build: ./frontend
-    image: frontend-image
+    image: ${DOCKER_USERNAME}/frontend-image
     ports: 
       - "80:80"
     depends_on:
@@ -14,7 +14,7 @@ services:
   backend:
     container_name: backend
     build: ./backend
-    image: backend-image
+    image: ${DOCKER_USERNAME}/backend-image
     ports: 
       - "3500:3500"
     environment:
